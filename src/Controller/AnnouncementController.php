@@ -14,11 +14,18 @@ use App\Repository\EnnouncementRepository;
 
 class AnnouncementController extends AbstractController
 {
+    
     #[Route('/announcement/{id}', name: 'product_show')]
+    
     public function show(int $id, EnnouncementRepository $ennouncementRepository): Response
     {
         $announcement = $ennouncementRepository->find($id);
-        return new Response('Read product with id '.$announcement->getId());
+       # if ($announcement->getName($id) !== '' && $announcement->getName($id) !== null) { 
+        if (isset($announcement)) {
+            return new Response('Read product with id '.$announcement->getId().'+'.$announcement->getName($id));
+        } else {
+            return new Response('Product with id '.$id.' not exist');
+        }
     }
 
     #[Route('/announcement', name: 'app_announcement')]
